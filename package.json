@@ -51,6 +51,7 @@
     "sequelize": "^6.37.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
+    "transaction-manager": "^2.1.7",
     "yup": "^0.32.11"
   },
   "devDependencies": {
