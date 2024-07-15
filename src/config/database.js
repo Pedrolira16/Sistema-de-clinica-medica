@@ -1,5 +1,5 @@
 import fs from "fs";
-import Sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 import config from "./config"; 
 
 import Logger from "../utils/logger";

@@ -1,7 +1,7 @@
 import BaseModel from './base.js';
 
 export default class Company extends BaseModel {
-	static load(sequelize,Datatypes){
+	static load(sequelize, Datatypes) {
 		return super.init({
 			id: {
 				type: Datatypes.INTEGER,
@@ -17,13 +17,14 @@ export default class Company extends BaseModel {
 				defaultValue: false,
 				allowNull: false
 			},
-
-			sequelize,
-			timestamps: true,
-			modalName: 'company',
-			tableName: 'company',
-			createdAt: 'created_at',
-			updatedAt: 'updated_at'
+		},
+			{
+				sequelize,
+				timestamps: true,
+				modalName: 'company',
+				tableName: 'company',
+				createdAt: 'created_at',
+				updatedAt: 'updated_at'
 
 			});
 	}

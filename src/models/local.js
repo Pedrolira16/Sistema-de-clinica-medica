@@ -1,6 +1,6 @@
-import BaseMOdel from './base';
+import BaseModel from './base';
 
-export default  class Local extends BaseModel {
+export default class Local extends BaseModel {
 	static load(sequelize, DataTypes) {
 		return super.init({
 			id: {
@@ -24,7 +24,7 @@ export default  class Local extends BaseModel {
 				allowNull: false,
 			},
 
-			prefix: {	
+			prefix: {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
@@ -34,14 +34,15 @@ export default  class Local extends BaseModel {
 				defaultValue: false,
 				allowNull: false,
 			},
-			
-			sequelize,
-			timestamps: true,
-			modelName: 'local',
-			tableName: 'local',
-			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-		});
+		},
+			{
+				sequelize,
+				timestamps: true,
+				modelName: 'local',
+				tableName: 'local',
+				createdAt: 'created_at',
+				updatedAt: 'updated_at',
+			});
 	}
 	static associate(models) {
 		this.belongsTo(models.Company, { foreignKey: 'company_id' });

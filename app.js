@@ -1,7 +1,7 @@
-import Routes from './config/routes.js';
+import Routes from './src/config/routes.js';
 import express from 'express';
 import cors from 'cors';
-import Database from './config/database.js';
+import Database from './src/config/database.js';
 import env from 'dotenv';
 
 env.config();
@@ -34,7 +34,7 @@ class App {
 
 	start() {
 		this.setup();
-		this.app.listen(3333);
+		this.app.listen(3500);
 	}
 }
 

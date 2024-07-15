@@ -1,4 +1,4 @@
-import BaseModel from "./base";
+import BaseModel from './base';
 
 export default class Appointment extends BaseModel {
 	static load(sequelize, DataTypes) {
@@ -14,7 +14,7 @@ export default class Appointment extends BaseModel {
 				allowNull: false,
 			},
 
-			user_id: {	
+			user_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
@@ -43,14 +43,14 @@ export default class Appointment extends BaseModel {
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
-			
+
 			confirmed_at: {
 				type: DataTypes.DATE,
 				allowNull: true,
 			},
-			
+
 			finished_at: {
-				type: Sequelize.DATE,
+				type: DataTypes.DATE,
 				allowNull: true,
 			},
 
@@ -58,15 +58,16 @@ export default class Appointment extends BaseModel {
 				type: DataTypes.BOOLEAN,
 				defaultValue: false,
 				allowNull: false,
-			},
-
-			sequelize,
-			timestamps: true,
-			modelName: 'appointment',
-			tableName: 'appointment',
-			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-		});
+			}
+		},
+			{
+				sequelize,
+				timestamps: true,
+				modelName: 'appointment',
+				tableName: 'appointment',
+				createdAt: 'created_at',
+				updatedAt: 'updated_at',
+			});
 	}
 
 	static associate(models) {

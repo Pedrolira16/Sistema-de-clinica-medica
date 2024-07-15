@@ -29,14 +29,15 @@ export default class Patient extends BaseModel {
 				defaultValue: false,
 				allowNull: false,
 			},
-
-			sequelize,
-			timestamps: true,
-			modelName: 'patient',
-			tableName: 'patient',
-			createdAt: 'created_at',
-			updatedAt: 'updated_at',
-		});
+		},
+			{
+				sequelize,
+				timestamps: true,
+				modelName: 'patient',
+				tableName: 'patient',
+				createdAt: 'created_at',
+				updatedAt: 'updated_at',
+			});
 	}
 
 	static associate(models) {

@@ -53,16 +53,17 @@ export default class User extends BaseModel {
 				defaultValue: false,
 				allowNull: false,
 			},
-
-			sequelize,
-			timestamps: true,
-			modelName: "user",
-			tableName: "user",
-			createdAt: "created_at",
-			updatedAt: "updated_at",
-		});
+		},
+			{
+				sequelize,
+				timestamps: true,
+				modelName: "user",
+				tableName: "user",
+				createdAt: "created_at",
+				updatedAt: "updated_at",
+			});
 	}
-	
+
 	static associate(models) {
 		this.belongsTo(models.Company, { foreignKey: "company_id" });
 		this.hasMany(models.Appointment, { foreignKey: "user_id" });
