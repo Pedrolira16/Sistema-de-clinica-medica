@@ -1,5 +1,7 @@
 'use strict';
 
+const { add } = require("lodash");
+
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 
@@ -140,6 +142,11 @@ module.exports = {
 					allowNull: false,
 				},
 
+				address: {
+					type: Sequelize.STRING,
+					allowNull: false,
+				},
+
 				prefix: {
 					type: Sequelize.STRING,
 					allowNull: false,
@@ -221,12 +228,12 @@ module.exports = {
 
 				confirmed_at: {
 					type: Sequelize.DATE,
-					allowNull: false,
+					allowNull: true,
 				},
 
 				finished_at: {
 					type: Sequelize.DATE,
-					allowNull: false,
+					allowNull: true,
 				},
 
 				status: {
