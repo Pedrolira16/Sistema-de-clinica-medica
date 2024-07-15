@@ -21,6 +21,6 @@ import CompanyService from "../services/company";
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
-	}
+	};
 }
 export default CompanyController;

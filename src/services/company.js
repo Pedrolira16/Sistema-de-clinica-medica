@@ -1,6 +1,6 @@
 import { Company } from "../models";
 import { User } from "../models";
-console.log(Company, 'company');
+
 
 export default class CompanyService {
 	async create(post){
@@ -18,5 +18,5 @@ export default class CompanyService {
 				is_adm: true
 			})
 			return company, user;
-		}
-	}
+	};
+}

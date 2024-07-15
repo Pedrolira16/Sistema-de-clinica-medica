@@ -8,7 +8,5 @@ const companySchema = {
 			})
 			.unknown(),
 	}
-	
 }
-
 export default companySchema;

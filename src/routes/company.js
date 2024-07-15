@@ -13,7 +13,6 @@ class CompanyRoutes extends BaseRoutes {
 		this.router.post('/register', SchemaValidator.validate(companySchema.create), this.companyController.create);
 
 		return this.router;
-
 	}
-
-}export default CompanyRoutes;
+}
+export default CompanyRoutes;
