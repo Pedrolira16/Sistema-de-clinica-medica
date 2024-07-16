@@ -1,9 +1,13 @@
 import bcrypt from 'bcryptjs';
 import { sign, verify } from 'jsonwebtoken';
 import config from '../config/config';
+import { validate } from 'gerador-validador-cpf';
 
 export const hashPassword = async (password) => {
 	return await bcrypt.hash(password, 10);
+}
+export const  validateCPF = (cpf) => {
+	return validate(cpf);
 }
 
 class AuthUtils {
