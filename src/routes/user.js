@@ -10,7 +10,7 @@ class UserRoutes extends BaseRoutes {
 	}
 
 	setup(){
-		this.router.post('/',SchemaValidator.validate(userSchema.create),this.userController.create);
+		this.router.post('/:id',SchemaValidator.validate(userSchema.create),this.userController.create);
 
 		return this.router;
 	}
