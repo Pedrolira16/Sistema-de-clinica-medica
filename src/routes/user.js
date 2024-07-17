@@ -2,6 +2,7 @@ import BaseRoutes from "./base";
 import SchemaValidator from "../utils/schemaValidator";
 import userSchema from "../schemas/user";
 import UserController from "../controller/user";
+import Authenticator from "../middlewares/auth";
  
 
 class UserRoutes extends BaseRoutes {
@@ -12,7 +13,8 @@ class UserRoutes extends BaseRoutes {
 
 	setup(){
 		this.router.post('/:id',SchemaValidator.validate(userSchema.create),this.userController.create);
-		this.router.post('/:id/login',SchemaValidator.validate(userSchema.login),this.userController.login);//queria sem ter que colocar o id
+		this.router.post('/:id/login',SchemaValidator.validate(userSchema.login),this.userController.login);
+		this.router.put('/:id',Authenticator.getToken,SchemaValidator.validate(userSchema.update),this.userController.update);
 
 		return this.router;
 	}

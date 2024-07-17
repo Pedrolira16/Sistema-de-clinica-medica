@@ -2,10 +2,16 @@ import { User, Company } from "../models";
 import AuthUtils, { hashPassword } from "../utils/auth";
 import { validateCPF } from "../utils/auth.js";
 
+
+
 class UserService{
 	async create (post,filter){
 
-		const company = await Company.findOne({where: {id: filter.id}});
+		const company = await Company.findOne({
+			where: {
+				id: filter.id
+			}
+		});
 
 		if(!company){
 			throw new Error('Empresa não encontrada');
@@ -23,7 +29,11 @@ class UserService{
 	};
 
 	async login(post){
-		const user = await User.findOne({where: {email: post.email}});
+		const user = await User.findOne({
+			where: {
+				email: post.email
+			}
+		});
 		
 		if(!user){
 			throw new Error('Email ou senha inválidos');
@@ -41,6 +51,32 @@ class UserService{
 			user,
 			token
 		};
+	};
+
+	async update(post,filter){
+		const user = await User.findOne({
+			where: {
+				id: filter.id
+			}
+		});
+
+		if(!user){
+			throw new Error('Usuário não encontrado');
+		}
+
+		if(post.password){
+			post.password = await hashPassword(post.password);
+		}
+
+		if(post.cpf && !validateCPF(post.cpf)){
+			throw new Error('CPF inválido');
+		}
+
+		return User.update(post, {
+			where: {
+				id: filter.id
+			}
+		});
 	}
 }
 export default UserService;

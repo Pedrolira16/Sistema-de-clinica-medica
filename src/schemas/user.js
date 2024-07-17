@@ -27,6 +27,23 @@ const userSchema =  {
 			password: yup.string().required()
 		})
 		.unknown()
+	 },
+
+	 update : {
+		params: yup
+		.object ({
+			id: yup.number().required()
+		}),
+		body: yup
+		.object ({
+			name: yup.string(),
+			email: yup.string().email(),
+			password: yup.string(),
+			cpf : yup.string(),
+			phone: yup.string(),
+			role: yup.string()
+		})
+
 	 }
 }
 export default userSchema;
