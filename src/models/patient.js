@@ -9,6 +9,11 @@ export default class Patient extends BaseModel {
 				autoIncrement: true,
 			},
 
+			company_id: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,

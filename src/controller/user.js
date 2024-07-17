@@ -6,7 +6,12 @@ export default class UserController extends BaseController {
 
 		super();
 		this.userService = new UserService();
-		this.bindActions(['create','login','update']);	
+		this.bindActions([
+			'create',
+			'login',
+			'update',
+			'list'
+		]);	
 	}
 	
 	async create(req, res) {
@@ -38,6 +43,16 @@ export default class UserController extends BaseController {
 			await this.userService.update(req.data, req.filter);
 	
 			this.successHandler(true, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	};
+
+	async list(req, res) {
+		try {
+			const response = await this.userService.list(req.filter);
+	
+			this.successHandler(response, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}

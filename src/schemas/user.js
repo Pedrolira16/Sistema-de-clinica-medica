@@ -43,7 +43,15 @@ const userSchema =  {
 			phone: yup.string(),
 			role: yup.string()
 		})
+		.unknown()
+	 },
 
+	 list : {
+		params: yup
+		.object ({
+			id: yup.number().required()
+		})
+		.unknown
 	 }
 }
 export default userSchema;

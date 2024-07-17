@@ -2,8 +2,6 @@ import { User, Company } from "../models";
 import AuthUtils, { hashPassword } from "../utils/auth";
 import { validateCPF } from "../utils/auth.js";
 
-
-
 class UserService{
 	async create (post,filter){
 
@@ -77,6 +75,15 @@ class UserService{
 				id: filter.id
 			}
 		});
-	}
+	};
+
+	async list(filter){
+		const users = await User.findAll({
+			where: {
+				company_id: filter.id
+			}
+		});
+		return users;	
+	};
 }
 export default UserService;

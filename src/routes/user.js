@@ -15,6 +15,7 @@ class UserRoutes extends BaseRoutes {
 		this.router.post('/:id',SchemaValidator.validate(userSchema.create),this.userController.create);
 		this.router.post('/:id/login',SchemaValidator.validate(userSchema.login),this.userController.login);
 		this.router.put('/:id',Authenticator.getToken,SchemaValidator.validate(userSchema.update),this.userController.update);
+		this.router.get('/:id',SchemaValidator.validate(userSchema.list),this.userController.list);	
 
 		return this.router;
 	}

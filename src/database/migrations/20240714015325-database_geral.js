@@ -103,6 +103,15 @@ module.exports = {
 					allowNull: false,
 				},
 
+				company_id: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					references: {
+						model: "company",
+						key: "id",
+					}
+				},
+
 				name: {
 					type: Sequelize.STRING,
 					allowNull: false,
@@ -278,9 +287,3 @@ module.exports = {
 		}
 	}
 };
-
-
-
-
-
-
