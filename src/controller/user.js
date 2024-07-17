@@ -6,7 +6,7 @@ export default class UserController extends BaseController {
 
 		super();
 		this.userService = new UserService();
-		this.bindActions(['create']);	
+		this.bindActions(['create','login']);	
 	}
 	
 	async create(req, res) {
@@ -17,6 +17,18 @@ export default class UserController extends BaseController {
 	
 			this.successHandler(response, res);
 		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	};
+
+	async login(req, res) {
+		try{
+			const response = await this.userService.login({
+				...req.data
+			})
+
+			this.successHandler(response,res);
+		}catch (error) {
 			this.errorHandler(error, req, res);
 		}
 	};

@@ -2,7 +2,6 @@ import { Router} from 'express';
 import CompanyRoutes from '../routes/company';
 import UserRoutes from '../routes/user';
 
-
 export default class Routes {
 	constructor() {
 		this.router = Router();
@@ -13,7 +12,6 @@ export default class Routes {
 	setup() {
 		this.router.use('/auth', this.companyRoutes.setup());
 		this.router.use('/users', this.userRoutes.setup());
-		
 		
 		return this.router;
 	}

@@ -18,6 +18,15 @@ const userSchema =  {
 			is_adm: yup.boolean().required(),
 		})
 		.unknown()
+	 },
+
+	 login : {
+		body: yup
+		.object ({
+			email: yup.string().email().required(),
+			password: yup.string().required()
+		})
+		.unknown()
 	 }
 }
 export default userSchema;
