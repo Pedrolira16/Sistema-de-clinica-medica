@@ -13,7 +13,10 @@ class Authenticator {
 			if (err) {
 				return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
 			}
+			
 			req.userId = decoded.id;
+			req.companyId = decoded.company_id;
+
 			next();
 		});
 	}
@@ -23,6 +26,7 @@ class Authenticator {
 
 		jwt.verify(token, config.secretKey, (err, decoded) => {
 			if (!err) {
+				req.companyId = decoded?.company_id;
 				req.userId = decoded?.id;
 			}
 

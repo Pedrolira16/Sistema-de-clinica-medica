@@ -43,7 +43,7 @@ class UserService{
 			throw new Error('Email ou senha inválidos');
 		}
 
-		const token = AuthUtils.generateToken({id: user.id});
+		const token = AuthUtils.generateToken({ id: user.id, company_id: user.company_id });
 
 		return {
 			user,

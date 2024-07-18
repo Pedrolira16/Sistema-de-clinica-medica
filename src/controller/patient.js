@@ -1,5 +1,6 @@
 import BaseController from "./base";
 import PatientService from "../services/patient";
+import { log } from "handlebars/runtime";
 
 export default class PatientController extends BaseController {
 
@@ -10,7 +11,7 @@ export default class PatientController extends BaseController {
 		this.bindActions([
 			'create', 
 			'list', 
-			'getOne'
+			'find'
 		]);
 	}
 
@@ -29,7 +30,10 @@ export default class PatientController extends BaseController {
 
 	async list(req, res) {
 		try {
-			const response = await this.patientService.list(req.userId);
+			const response = await this.patientService.list({
+				...req.filter,
+				company_id: req.companyId
+			});
 
 			this.successHandler(response, res);
 		} catch (error) {
@@ -37,9 +41,12 @@ export default class PatientController extends BaseController {
 		}
 	};
 
-	async getOne(req, res) {
+	async find(req, res) {
 		try {
-			const response = await this.patientService.getOne(req.userId, req.filter);
+			const response = await this.patientService.find({
+				...req.filter,
+				company_id: req.companyId
+			});
 
 			this.successHandler(response, res);
 		} catch (error) {

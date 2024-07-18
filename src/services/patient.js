@@ -1,5 +1,7 @@
+import { Op, literal } from "sequelize";
 import { Company, Patient, User } from "../models";
 import { validateCPF } from "../utils/auth.js";
+import PaginationUtils from "../utils/pagination.js";
 
 class PatientService {
 	async create(post, filter) {
@@ -28,30 +30,68 @@ class PatientService {
 		return Patient.create(post);
 	};
 
+	getWhereConditions(filter) {
+		const where = {
+			company_id: filter.company_id,
+			is_deleted: false
+		};
+
+		if (filter.search_text) {
+			where[Op.or] = [
+				{ name: literal(`patient.name ILIKE :search_text`) },
+				{ cpf: literal(`patient.cpf ILIKE :search_text`) }
+			]
+		}
+		return where;
+	}
+
 	async list(filter) {
-		const user = await User.findOne({
-			where: {
-				id: filter
-			}
-		});
-		return Patient.findAll({
-			where: {
-				company_id: user.company_id
-			}
-		});
+
+		const pagination = PaginationUtils.config({ page: filter.page, items_per_page: 10 });
+
+		const promises = [];
+
+		promises.push(
+			Patient.findAll({
+				where: this.getWhereConditions(filter),
+				attributes: ['id', 'name', 'cpf', 'email'],
+				replacements: {
+					search_text: `%${filter.search_text}%`
+				},
+				...pagination.getQueryParams()
+				
+			})
+		);
+		const isFirstPage = pagination.getPage() === 1;
+
+		if (isFirstPage) {
+			promises.push(
+				Patient.count({
+					where: this.getWhereConditions(filter),
+					replacements: {
+						search_text: `%${filter.search_text}%`
+					},
+				})
+			);
+		}
+
+		const [patients, totalItems] = await Promise.all(promises);
+
+		return {
+			...pagination.mount(totalItems),
+			patients
+		};
 	};
 
-	async getOne(userId,filter) {
-		const user = await User.findOne({
-			where: {
-				id: userId
-			}
-		});
+	async find(filter) {
+		console.log(filter);
 		return Patient.findOne({
 			where: {
 				id: filter.id,
-				company_id: user.company_id
-			}
+				company_id: filter.company_id,
+				is_deleted: false
+			},
+			attributes: ['id', 'name', 'cpf', 'email']
 		});
 	}
 }
