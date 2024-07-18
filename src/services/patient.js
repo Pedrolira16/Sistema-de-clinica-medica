@@ -59,7 +59,7 @@ class PatientService {
 					search_text: `%${filter.search_text}%`
 				},
 				...pagination.getQueryParams()
-				
+
 			})
 		);
 		const isFirstPage = pagination.getPage() === 1;
@@ -84,7 +84,6 @@ class PatientService {
 	};
 
 	async find(filter) {
-		console.log(filter);
 		return Patient.findOne({
 			where: {
 				id: filter.id,
@@ -92,6 +91,45 @@ class PatientService {
 				is_deleted: false
 			},
 			attributes: ['id', 'name', 'cpf', 'email']
+		});
+	};
+
+	async update(filter, data) {
+
+		const patient = Patient.findOne({
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
+		})
+
+		if (!patient) {
+			throw new Error('Paciente não encontrado')
+		}
+
+		if (data.cpf && !validateCPF(data.cpf)) {
+			throw new Error('CPF inválido');
+		}
+
+		return Patient.update(data, {
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
+		});
+	};
+
+	async remove(filter) {
+		return Patient.update({
+			is_deleted: true
+		}, {
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
 		});
 	}
 }

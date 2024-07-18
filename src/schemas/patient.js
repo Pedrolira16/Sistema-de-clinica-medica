@@ -28,6 +28,27 @@ const patientSchema = {
 				id: yup.number().required()
 			})
 			.unknown()
+	},
+	
+	update: {
+		params: yup
+			.object({
+				id: yup.number().required()
+			}),
+		body: yup
+			.object({
+				name: yup.string(),
+				cpf: yup.string(),
+				email: yup.string().email()		
+			})
+	},
+
+	remove: {
+		params: yup
+			.object({
+				id: yup.number().required()
+			})
+			.unknown()
 	}
 }
 export default patientSchema;

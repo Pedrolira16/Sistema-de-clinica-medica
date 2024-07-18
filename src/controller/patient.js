@@ -1,6 +1,5 @@
 import BaseController from "./base";
 import PatientService from "../services/patient";
-import { log } from "handlebars/runtime";
 
 export default class PatientController extends BaseController {
 
@@ -9,9 +8,11 @@ export default class PatientController extends BaseController {
 
 		this.patientService = new PatientService();
 		this.bindActions([
-			'create', 
-			'list', 
-			'find'
+			'create',
+			'list',
+			'find',
+			'update',
+			'remove'
 		]);
 	}
 
@@ -49,6 +50,34 @@ export default class PatientController extends BaseController {
 			});
 
 			this.successHandler(response, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	};
+
+	async update(req, res) {
+		try {
+			await this.patientService.update({
+				...req.filter,
+				company_id: req.companyId
+			},
+			req.data
+		);
+
+			this.successHandler(true, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	};
+
+	async remove(req, res){
+		try {
+			await this.patientService.remove({
+				...req.filter,
+				company_id: req.companyId
+			});
+
+			this.successHandler(true, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}

@@ -11,10 +11,12 @@ class PatientRoutes extends BaseRoutes {
 	}
 
 	setup(){
-		this.router.post('/', Authenticator.getToken,SchemaValidator.validate(patientSchema.create),this.patientController.create);
-		this.router.get('/', Authenticator.getToken,SchemaValidator.validate(patientSchema.list) ,this.patientController.list);
-		this.router.get('/:id', Authenticator.getToken,SchemaValidator.validate(patientSchema.find),this.patientController.find);
-
+		this.router.post('/', Authenticator.getToken, SchemaValidator.validate(patientSchema.create), this.patientController.create);
+		this.router.get('/', Authenticator.getToken, SchemaValidator.validate(patientSchema.list) , this.patientController.list);
+		this.router.get('/:id', Authenticator.getToken, SchemaValidator.validate(patientSchema.find), this.patientController.find);
+		this.router.put('/:id', Authenticator.getToken, SchemaValidator.validate(patientSchema.update), this.patientController.update);
+		this.router.delete('/:id', Authenticator.getToken, SchemaValidator.validate(patientSchema.remove), this.patientController.remove)
+		
 		return this.router;
 	}
 }
