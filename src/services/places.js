@@ -1,6 +1,6 @@
-import { Local} from "../models";
+import { Local } from "../models";
 import PaginationUtils from "../utils/pagination";
-import { literal, Op} from "sequelize";
+import { literal, Op } from "sequelize";
 
 class PlacesService {
 	async create(data) {
@@ -14,13 +14,13 @@ class PlacesService {
 		};
 
 		if (filter.search_text) {
-			where[Op.or]=[
-				{name: literal(`local.name ILIKE :search_text`)},
-				{prefix: literal(`local.prefix ILIKE :search_text`)}
+			where[Op.or] = [
+				{ name: literal(`local.name ILIKE :search_text`) },
+				{ prefix: literal(`local.prefix ILIKE :search_text`) }
 			]
 		}
 		return where;
-		
+
 	};
 
 	async list(filter) {
@@ -57,6 +57,39 @@ class PlacesService {
 			places,
 			...pagination.mount(totalItems)
 		}
+	};
+
+	async find(filter) {
+		return Local.findOne({
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			},
+			attributes: ['name', 'address', 'prefix']
+		})
+	};
+
+	async update(data) {
+		return Local.update(data, {
+			where: {
+				id: data.id,
+				company_id: data.company_id,
+				is_deleted: false
+			}
+		});
+	};
+
+	async remove(filter) {
+		return Local.update({
+			is_deleted: true
+		}, {
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
+		})
 	}
 }
 export default PlacesService;
