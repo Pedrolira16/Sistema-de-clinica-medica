@@ -12,7 +12,8 @@ class PlacesRoutes extends BaseRoutes {
 
 	setup(){
 		this.router.post('/', Authenticator.getToken ,SchemaValidator.validate(placesSchema.create), this.placesController.create);
-			
+		this.router.get('/', Authenticator.getToken, SchemaValidator.validate(placesSchema.list), this.placesController.list)
+
 		return this.router;
 	}
 }

@@ -59,9 +59,9 @@ class PatientService {
 					search_text: `%${filter.search_text}%`
 				},
 				...pagination.getQueryParams()
-
 			})
 		);
+		
 		const isFirstPage = pagination.getPage() === 1;
 
 		if (isFirstPage) {

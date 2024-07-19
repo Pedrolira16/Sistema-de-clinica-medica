@@ -8,6 +8,14 @@ const placesSchema = {
 				address: yup.string().required(),
 				prefix: yup.string().required(),
 			})
-	}	
+	},
+
+	list: {
+		query: yup
+		.object({
+			search_text: yup.string().nullable(),
+			page: yup.number().integer().nullable(),
+		})
+	}
 }
 export default placesSchema;
