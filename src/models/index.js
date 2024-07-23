@@ -1,7 +1,7 @@
-import  Appointments  from './appointment';
+import  Attendance  from './attendance';
 import  User  from './user';
 import  Company  from './company.js';
-import  Local  from './local';
+import  Place  from './place';
 import  Patient  from './patient';
 
-export  { Appointments, User, Company, Local, Patient };
+export  { Attendance, User, Company, Place, Patient };

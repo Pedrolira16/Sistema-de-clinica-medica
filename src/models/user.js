@@ -58,7 +58,7 @@ export default class User extends BaseModel {
 				sequelize,
 				timestamps: true,
 				modelName: "user",
-				tableName: "user",
+				tableName: "users",
 				createdAt: "created_at",
 				updatedAt: "updated_at",
 			});
@@ -66,6 +66,6 @@ export default class User extends BaseModel {
 
 	static associate(models) {
 		this.belongsTo(models.Company, { foreignKey: "company_id" });
-		this.hasMany(models.Appointment, { foreignKey: "user_id" });
+		this.hasMany(models.Attendance, { foreignKey: "user_id" });
 	}
 }

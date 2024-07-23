@@ -39,13 +39,13 @@ export default class Patient extends BaseModel {
 				sequelize,
 				timestamps: true,
 				modelName: 'patient',
-				tableName: 'patient',
+				tableName: 'patients',
 				createdAt: 'created_at',
 				updatedAt: 'updated_at',
 			});
 	}
 
 	static associate(models) {
-		this.hasMany(models.Appointment, { foreignKey: 'patient_id' });
+		this.hasMany(models.Attendance, { foreignKey: 'patient_id' });
 	}
 }

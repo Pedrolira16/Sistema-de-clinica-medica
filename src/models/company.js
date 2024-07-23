@@ -22,7 +22,7 @@ export default class Company extends BaseModel {
 				sequelize,
 				timestamps: true,
 				modalName: 'company',
-				tableName: 'company',
+				tableName: 'companies',
 				createdAt: 'created_at',
 				updatedAt: 'updated_at'
 
@@ -30,7 +30,7 @@ export default class Company extends BaseModel {
 	}
 	static associate(models) {
 		this.hasMany(models.User, { foreignKey: 'company_id' });
-		this.hasMany(models.Local, { foreignKey: 'company_id' });
-		this.hasMany(models.Appointment, { foreignKey: 'company_id' });
+		this.hasMany(models.Place, { foreignKey: 'company_id' });
+		this.hasMany(models.Attendance, { foreignKey: 'company_id' });
 	}
 }

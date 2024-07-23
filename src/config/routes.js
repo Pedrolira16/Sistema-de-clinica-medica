@@ -3,6 +3,7 @@ import CompanyRoutes from '../routes/company';
 import UserRoutes from '../routes/user';
 import PatientRoutes from '../routes/patient';
 import PlacesRoutes from '../routes/places';
+import AttendanceRoutes from '../routes/attendance';
 
 export default class Routes {
 	constructor() {
@@ -11,6 +12,7 @@ export default class Routes {
 		this.userRoutes = new UserRoutes();
 		this.patientRoutes = new PatientRoutes();
 		this.placesRoutes = new PlacesRoutes();
+		this.attendanceRoutes = new AttendanceRoutes();
 	}
 
 	setup() {
@@ -18,6 +20,7 @@ export default class Routes {
 		this.router.use('/users', this.userRoutes.setup());
 		this.router.use('/patients', this.patientRoutes.setup());
 		this.router.use('/places',this.placesRoutes.setup());
+		this.router.use('/attendances', this.attendanceRoutes.setup());
 		
 		return this.router;
 	};

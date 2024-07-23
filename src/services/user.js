@@ -27,6 +27,7 @@ class UserService{
 	};
 
 	async login(post){
+		console.log(post);
 		const user = await User.findOne({
 			where: {
 				email: post.email

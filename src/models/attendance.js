@@ -1,6 +1,6 @@
 import BaseModel from './base';
 
-export default class Appointment extends BaseModel {
+export default class Attendance extends BaseModel {
 	static load(sequelize, DataTypes) {
 		return super.init({
 			id: {
@@ -19,7 +19,7 @@ export default class Appointment extends BaseModel {
 				allowNull: false,
 			},
 
-			local_id: {
+			place_id: {
 				type: DataTypes.INTEGER,
 				allowNull: false,
 			},
@@ -42,6 +42,7 @@ export default class Appointment extends BaseModel {
 			status: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				defaultValue: 'SCHEDULED',
 			},
 
 			confirmed_at: {
@@ -53,7 +54,7 @@ export default class Appointment extends BaseModel {
 				type: DataTypes.DATE,
 				allowNull: true,
 			},
-
+			
 			is_deleted: {
 				type: DataTypes.BOOLEAN,
 				defaultValue: false,
@@ -63,16 +64,17 @@ export default class Appointment extends BaseModel {
 			{
 				sequelize,
 				timestamps: true,
-				modelName: 'appointment',
-				tableName: 'appointment',
+				modelName: 'attendance',
+				tableName: 'attendances',
 				createdAt: 'created_at',
 				updatedAt: 'updated_at',
 			});
 	}
 
 	static associate(models) {
+		this.belongsTo(models.User, { foreignKey: 'user_id' });
 		this.belongsTo(models.Company, { foreignKey: 'company_id' });
-		this.belongsTo(models.Local, { foreignKey: 'local_id' });
+		this.belongsTo(models.Place, { foreignKey: 'place_id' });
 		this.belongsTo(models.Patient, { foreignKey: 'patient_id' });
 	}
 }

@@ -1,10 +1,10 @@
-import { Local } from "../models";
+import { Place } from "../models";
 import PaginationUtils from "../utils/pagination";
 import { literal, Op } from "sequelize";
 
 class PlacesService {
 	async create(data) {
-		return Local.create(data);
+		return Place.create(data);
 	};
 
 	getWhereConditions(filter) {
@@ -15,8 +15,8 @@ class PlacesService {
 
 		if (filter.search_text) {
 			where[Op.or] = [
-				{ name: literal(`local.name ILIKE :search_text`) },
-				{ prefix: literal(`local.prefix ILIKE :search_text`) }
+				{ name: literal(`place.name ILIKE :search_text`) },
+				{ prefix: literal(`place.prefix ILIKE :search_text`) }
 			]
 		}
 		return where;
@@ -29,7 +29,7 @@ class PlacesService {
 		const promises = [];
 
 		promises.push(
-			Local.findAll({
+			place.findAll({
 				where: this.getWhereConditions(filter),
 				attributes: ['name', 'address', 'prefix'],
 				replacements: {
@@ -43,7 +43,7 @@ class PlacesService {
 
 		if (isFirstPage) {
 			promises.push(
-				Local.count({
+				place.count({
 					where: this.getWhereConditions(filter),
 					replacements: {
 						search_text: `%${filter.search_text}%`
@@ -60,7 +60,7 @@ class PlacesService {
 	};
 
 	async find(filter) {
-		return Local.findOne({
+		return Place.findOne({
 			where: {
 				id: filter.id,
 				company_id: filter.company_id,
@@ -71,7 +71,7 @@ class PlacesService {
 	};
 
 	async update(data) {
-		return Local.update(data, {
+		return Place.update(data, {
 			where: {
 				id: data.id,
 				company_id: data.company_id,
@@ -81,7 +81,7 @@ class PlacesService {
 	};
 
 	async remove(filter) {
-		return Local.update({
+		return Place.update({
 			is_deleted: true
 		}, {
 			where: {

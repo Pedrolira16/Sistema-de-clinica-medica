@@ -1,14 +1,12 @@
 'use strict';
 
-const { add } = require("lodash");
-
 module.exports = {
 	up: async (queryInterface, Sequelize) => {
 
 		const transaction = await queryInterface.sequelize.transaction();
 
 		try {
-			await queryInterface.createTable("company", {
+			await queryInterface.createTable("companies", {
 				id: {
 					type: Sequelize.INTEGER,
 					primaryKey: true,
@@ -32,7 +30,7 @@ module.exports = {
 
 			}, { transaction });
 
-			await queryInterface.createTable("user", {
+			await queryInterface.createTable("users", {
 				id: {
 					type: Sequelize.INTEGER,
 					primaryKey: true,
@@ -44,7 +42,7 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "company",
+						model: "companies",
 						key: "id",
 					}
 				},
@@ -95,7 +93,7 @@ module.exports = {
 				
 			}, { transaction });
 
-			await queryInterface.createTable("patient", {
+			await queryInterface.createTable("patients", {
 				id: {
 					type: Sequelize.INTEGER,
 					primaryKey: true,
@@ -107,7 +105,7 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "company",
+						model: "companies",
 						key: "id",
 					}
 				},
@@ -138,7 +136,7 @@ module.exports = {
 				
 			}, { transaction });
 
-			await queryInterface.createTable("local", {
+			await queryInterface.createTable("places", {
 				id: {
 					type: Sequelize.INTEGER,
 					primaryKey: true,
@@ -165,7 +163,7 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "company",
+						model: "companies",
 						key: "id",
 					}
 				},
@@ -181,7 +179,7 @@ module.exports = {
 
 			}, { transaction });
 
-			await queryInterface.createTable("appointment", {
+			await queryInterface.createTable("attendances", {
 				id: {
 					type: Sequelize.INTEGER,
 					primaryKey: true,
@@ -193,7 +191,7 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "user",
+						model: "users",
 						key: "id",
 					}
 				},
@@ -202,7 +200,7 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "company",
+						model: "companies",
 						key: "id",
 					}
 				},
@@ -211,26 +209,26 @@ module.exports = {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "patient",
+						model: "patients",
 						key: "id",
 					}
 				},
 
-				local_id: {
+				place_id: {
 					type: Sequelize.INTEGER,
 					allowNull: false,
 					references: {
-						model: "local",
+						model: "places",
 						key: "id",
 					}
 				},
 
-				startDate: {
+				start_date: {
 					type: Sequelize.DATE,
 					allowNull: false,
 				},
 
-				endDate: {
+				end_date: {
 					type: Sequelize.DATE,
 					allowNull: false,
 				},
@@ -248,6 +246,7 @@ module.exports = {
 				status: {
 					type: Sequelize.STRING,
 					allowNull: false,
+					defaultValue: "SCHEDULED"
 				},
 
 				is_deleted: {
@@ -273,11 +272,11 @@ module.exports = {
 		const transaction = await queryInterface.sequelize.transaction();
 
 		try {
-			await queryInterface.dropTable("appointment", { transaction });
-			await queryInterface.dropTable("local", { transaction });
-			await queryInterface.dropTable("patient", { transaction });
-			await queryInterface.dropTable("user", { transaction });
-			await queryInterface.dropTable("company", { transaction });
+			await queryInterface.dropTable("attendances", { transaction });
+			await queryInterface.dropTable("patients", { transaction });
+			await queryInterface.dropTable("places", { transaction });
+			await queryInterface.dropTable("users", { transaction });
+			await queryInterface.dropTable("companies", { transaction });
 
 			await transaction.commit();
 
@@ -286,4 +285,4 @@ module.exports = {
 			throw error;
 		}
 	}
-};
+}; 
