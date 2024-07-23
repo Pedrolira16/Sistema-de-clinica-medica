@@ -1,6 +1,7 @@
 import { User, Place, Attendance, Patient } from '../models';
 import PaginationUtils from '../utils/pagination';
 import { Op, literal } from 'sequelize';
+import getDateRangeFilter from '../utils/filter-date';
 
 class AttendanceService {
 	async create(data) {
@@ -38,29 +39,38 @@ class AttendanceService {
 		}
 
 		return Attendance.create(data);
-	}
+	};
 
 	whereConditions(filter) {
 		const where = {
 			company_id: filter.company_id,
 			is_deleted: false
-		}      	                            	      	     	    	                                                    
+		};
+
 		if (filter.search_text) {
 			where[Op.or] = [
-				{ name: literal(`"user"."name" ILIKE :search_text`)},
+				{ name: literal(`"user"."name" ILIKE :search_text`) },
 				{ place: literal(`"place"."name" ILIKE :search_text`) }
-			]
+			];
 		}
+
+		if (filter.start_date || filter.end_date) {
+			where[Op.and] = getDateRangeFilter({
+				start_date: filter.start_date,
+				end_date: filter.end_date,
+			});
+		}
+
 		return where;
-	}
-                                                                             
+	};
+
 	async list(filter) {
 		const pagination = PaginationUtils.config({ page: filter.page, items_per_page: 10 });
 
 		const promises = [];
 
 		promises.push(
-			Attendance.findAll({        
+			Attendance.findAll({
 				where: this.whereConditions(filter),
 				include: [
 					{
@@ -121,7 +131,7 @@ class AttendanceService {
 					replacements: {
 						search_text: `%${filter.search_text}%`
 					},
-				})
+				}),
 			);
 		}
 		const [attendances, totalItems] = await Promise.all(promises);
@@ -131,5 +141,58 @@ class AttendanceService {
 			...pagination.mount(totalItems)
 		}
 	};
+
+	async find(filter) {
+		const promises = [];
+
+		promises.push(
+			Attendance.findOne({
+				where: this.whereConditions(filter),
+				include: [
+					{
+						model: User,
+						as: 'user',
+						attributes: ['id', 'name']
+					},
+					{
+						model: Patient,
+						as: 'patient',
+						attributes: ['id', 'name']
+					},
+					{
+						model: Place,
+						as: 'place',
+						attributes: ['id', 'name']
+					},
+				],
+				attributes: [
+					'status',
+					'start_date',
+					'end_date'
+				],
+
+				replacements: {
+					search_text: `%${filter.search_text}%`
+				},
+				raw: true,
+				nest: true,
+
+			}),
+		)
+
+		const attendance = await Promise.all(promises)
+
+		return attendance;
+	};
+
+	async update(filter, data) {
+		return Attendance.update(data, {
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
+		});
+	}
 }
 export default AttendanceService;
