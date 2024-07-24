@@ -37,6 +37,14 @@ class AttendanceService {
 		if (!place) {
 			throw new Error('Local não encontrado');
 		}
+		
+		await User.increment('total_attendances', {
+			where: {
+				id: data.user_id,
+				is_deleted: false
+			},
+			by: 1
+		});
 
 		return Attendance.create(data);
 	};

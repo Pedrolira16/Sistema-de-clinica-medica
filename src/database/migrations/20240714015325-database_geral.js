@@ -82,6 +82,12 @@ module.exports = {
 					allowNull: false,
 				},
 
+				total_attendances: {
+					type: Sequelize.INTEGER,
+					allowNull: false,
+					defaultValue: 0,
+				},
+
 				is_deleted: {
 					type: Sequelize.BOOLEAN,
 					defaultValue: false,

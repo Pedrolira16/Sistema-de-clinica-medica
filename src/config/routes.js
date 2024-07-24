@@ -4,6 +4,7 @@ import UserRoutes from '../routes/user';
 import PatientRoutes from '../routes/patient';
 import PlacesRoutes from '../routes/places';
 import AttendanceRoutes from '../routes/attendance';
+import ReportsRoutes from '../routes/reports';
 
 export default class Routes {
 	constructor() {
@@ -13,6 +14,7 @@ export default class Routes {
 		this.patientRoutes = new PatientRoutes();
 		this.placesRoutes = new PlacesRoutes();
 		this.attendanceRoutes = new AttendanceRoutes();
+		this.reportsRoutes = new ReportsRoutes();
 	}
 
 	setup() {
@@ -21,6 +23,7 @@ export default class Routes {
 		this.router.use('/patients', this.patientRoutes.setup());
 		this.router.use('/places',this.placesRoutes.setup());
 		this.router.use('/attendances', this.attendanceRoutes.setup());
+		this.router.use('/reports', this.reportsRoutes.setup());
 		
 		return this.router;
 	};
