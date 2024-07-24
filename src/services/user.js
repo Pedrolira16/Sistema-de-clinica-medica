@@ -1,46 +1,38 @@
-import { User, Company } from "../models";
+import { User } from "../models";
 import AuthUtils, { hashPassword } from "../utils/auth";
 import { validateCPF } from "../utils/auth.js";
+import PaginationUtils from "../utils/pagination.js";
+import { Op, literal } from "sequelize";
 
-class UserService{
-	async create (post,filter){
+class UserService {
+	async create(data) {
 
-		const company = await Company.findOne({
-			where: {
-				id: filter.id
-			}
-		});
+		data.password = await hashPassword(data.password);
 
-		if(!company){
-			throw new Error('Empresa não encontrada');
-		}
-		
-		post.company_id = filter.id;
-		post.password = await hashPassword(post.password);
-		
-		if(!validateCPF(post.cpf)){
+		if (!validateCPF(data.cpf)) {
 			throw new Error('CPF inválido');
 		}
 
-		const newUser= await User.create(post);
+		const newUser = await User.create(data);
+
 		return newUser;
 	};
 
-	async login(post){
+	async login(post) {
 		console.log(post);
 		const user = await User.findOne({
 			where: {
 				email: post.email
 			}
 		});
-		
-		if(!user){
+
+		if (!user) {
 			throw new Error('Email ou senha inválidos');
 		}
-		
+
 		const isPasswordValid = await AuthUtils.isPasswordValid(post.password, user.password);
 
-		if(!isPasswordValid){
+		if (!isPasswordValid) {
 			throw new Error('Email ou senha inválidos');
 		}
 
@@ -52,22 +44,22 @@ class UserService{
 		};
 	};
 
-	async update(post,filter){
+	async update(post, filter) {
 		const user = await User.findOne({
 			where: {
 				id: filter.id
 			}
 		});
 
-		if(!user){
+		if (!user) {
 			throw new Error('Usuário não encontrado');
 		}
 
-		if(post.password){
+		if (post.password) {
 			post.password = await hashPassword(post.password);
 		}
 
-		if(post.cpf && !validateCPF(post.cpf)){
+		if (post.cpf && !validateCPF(post.cpf)) {
 			throw new Error('CPF inválido');
 		}
 
@@ -78,13 +70,76 @@ class UserService{
 		});
 	};
 
-	async list(filter){
-		const users = await User.findAll({
+	getWhereConditions(filter) {
+		const where = {
+			company_id: filter.company_id,
+			is_deleted: false
+		};
+
+		if (filter.search_text) {
+			where[Op.or] = [
+				{ name: literal(`"user"."name" ILIKE :search_text`) },
+				{ role: literal(`"user"."role" ILIKE :search_text`) }
+			]
+		}
+		return where;
+	}
+
+	async list(filter) {
+
+		const pagination = PaginationUtils.config({ page: filter.page, items_per_page: 10 });
+
+		const promises = [];
+
+		promises.push(
+			User.findAll({
+				where: this.getWhereConditions(filter),
+				attributes: [
+					'id', 
+					'name', 
+					'email',
+					'cpf',
+					'phone',
+					'role',
+					'is_adm'
+				],
+				replacements: {
+					search_text: `%${filter.search_text}%`
+				},
+				...pagination.getQueryParams()
+			})
+		);
+
+		const isFirstPage = pagination.getPage() === 1;
+
+		if (isFirstPage) {
+			promises.push(
+				User.count({
+					where: this.getWhereConditions(filter),
+					replacements: {
+						search_text: `%${filter.search_text}%`
+					},
+				})
+			);
+		}
+
+		const [users, total] = await Promise.all(promises);
+
+		return {
+			...pagination.mount(total),
+			users
+		};
+	};
+
+	async find(filter) {
+		return User.findOne({
 			where: {
-				company_id: filter.id
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
 			}
 		});
-		return users;	
 	};
-}
+};
+
 export default UserService;

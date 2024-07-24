@@ -1,5 +1,6 @@
 import BaseController from './base';
 import UserService from '../services/user';
+import { Company } from '../models';
 
 export default class UserController extends BaseController {
 	constructor() {
@@ -10,15 +11,17 @@ export default class UserController extends BaseController {
 			'create',
 			'login',
 			'update',
-			'list'
+			'list',
+			'find'
 		]);	
 	}
 	
 	async create(req, res) {
 		try {
-			const filter = req.filter;
-	
-			const response = await this.userService.create(req.data, filter); 
+			const response = await this.userService.create({
+				...req.data,
+				company_id: req.companyId
+			}) 
 	
 			this.successHandler(response, res);
 		} catch (error) {
@@ -50,11 +53,27 @@ export default class UserController extends BaseController {
 
 	async list(req, res) {
 		try {
-			const response = await this.userService.list(req.filter);
-	
+			const response = await this.userService.list({
+				...req.filter,
+				company_id: req.companyId
+			});
+
 			this.successHandler(response, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}
 	};
+
+	async find(req, res) {
+		try {
+			const response = await this.userService.find({
+				...req.filter,
+				company_id: req.companyId
+			});
+
+			this.successHandler(response, res);
+		} catch (error) {
+			this.errorHandler(error, req, res);
+		}
+	}
 }

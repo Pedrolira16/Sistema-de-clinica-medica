@@ -2,11 +2,6 @@ import * as yup from 'yup';
 
 const userSchema =  {
 	 create : {
-		params: yup
-		.object ({
-			id: yup.number().required()
-		}),
-
 		body: yup
 		.object ({
 			name: yup.string().required(),
@@ -46,12 +41,21 @@ const userSchema =  {
 		.unknown()
 	 },
 
-	 list : {
+	 list: {
+		query: yup
+		.object({
+			search_text: yup.string().nullable(),
+			page: yup.number().integer().nullable(),
+		})
+		.unknown()
+	},
+
+	find: {
 		params: yup
-		.object ({
+		.object({
 			id: yup.number().required()
 		})
-		.unknown
-	 }
+		.unknown()
+	},
 }
 export default userSchema;

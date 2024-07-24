@@ -4,7 +4,8 @@ const companySchema = {
 	create: {
 		body: yup
 			.object({
-				name: yup.string().required()
+				name: yup.string().required(),
+				password: yup.string().required(),
 			})
 			.unknown(),
 	}
