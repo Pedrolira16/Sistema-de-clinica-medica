@@ -50,6 +50,11 @@ export default class Attendance extends BaseModel {
 				allowNull: true,
 			},
 
+			confirmed_by: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+			},
+
 			finished_at: {
 				type: DataTypes.DATE,
 				allowNull: true,

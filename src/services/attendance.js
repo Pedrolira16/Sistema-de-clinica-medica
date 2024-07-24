@@ -1,6 +1,6 @@
 import { User, Place, Attendance, Patient } from '../models';
 import PaginationUtils from '../utils/pagination';
-import { Op, literal } from 'sequelize';
+import { Op, literal, Sequelize } from 'sequelize';
 import getDateRangeFilter from '../utils/filter-date';
 
 class AttendanceService {
@@ -94,13 +94,13 @@ class AttendanceService {
 					'start_date',
 					'end_date'
 				],
-
+				
 				replacements: {
 					search_text: `%${filter.search_text}%`
 				},
 				raw: true,
 				nest: true,
-
+				
 				...pagination.getQueryParams()
 			})
 		);
@@ -193,6 +193,49 @@ class AttendanceService {
 				is_deleted: false
 			}
 		});
+	};
+
+	async remove(filter) {
+		return Attendance.update({
+			is_deleted: true
+		},
+			{
+				where: {
+					id: filter.id,
+					company_id: filter.company_id,
+					is_deleted: false
+				}
+			});
+	};
+
+	async done(filter) {
+		return Attendance.update({
+			finished_at: Sequelize.literal('NOW()'),
+			status: 'DONE'
+		},
+			{
+				where: {
+					id: filter.id,
+					company_id: filter.company_id,
+					is_deleted: false
+				}
+			});
+	};
+
+	async confirm(filter){
+		return Attendance.update({
+			confirmed_at: Sequelize.literal('NOW()'),
+			confirmed_by: filter.user_id,
+			status: 'CONFIRMED',
+
+		},
+		{
+			where: {
+				id: filter.id,
+				company_id: filter.company_id,
+				is_deleted: false
+			}
+		})
 	}
 }
 export default AttendanceService;

@@ -49,6 +49,30 @@ const attendanceSchema = {
 				endDate: yup.date()
 			})
 			.unknown()
+	},
+
+	remove: {
+		params: yup
+			.object({
+				id: yup.number().required()
+			})
+			.unknown(),
+	},
+
+	done: {
+		params: yup
+			.object({
+				id: yup.number().required()
+			})
+			.unknown()
+	},
+
+	confirm: {
+		params: yup
+			.object({
+				id: yup.number().required()
+			})
+			.unknown()
 	}
 }
 export default attendanceSchema;

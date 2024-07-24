@@ -238,6 +238,11 @@ module.exports = {
 					allowNull: true,
 				},
 
+				confirmed_by: {
+					type: Sequelize.INTEGER,
+					allowNull: true,
+				},
+
 				finished_at: {
 					type: Sequelize.DATE,
 					allowNull: true,
