@@ -8,8 +8,8 @@ const attendanceSchema = {
 				user_id: yup.number().required(),
 				place_id: yup.number().required(),
 				patient_id: yup.number().required(),
-				startDate: yup.date(),
-				endDate: yup.date(),
+				start_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment()))).nullable(),
+				end_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment(start_date)))).nullable()
 			})
 			.unknown()
 	},
@@ -45,8 +45,8 @@ const attendanceSchema = {
 				user_id: yup.number(),
 				place_id: yup.number(),
 				patient_id: yup.number(),
-				startDate: yup.date(),
-				endDate: yup.date()
+				start_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment()))).nullable(),
+				end_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment(start_date)))).nullable()
 			})
 			.unknown()
 	},
