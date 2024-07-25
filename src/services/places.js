@@ -29,7 +29,7 @@ class PlacesService {
 		const promises = [];
 
 		promises.push(
-			place.findAll({
+			Place.findAll({
 				where: this.getWhereConditions(filter),
 				attributes: ['name', 'address', 'prefix'],
 				replacements: {
@@ -43,7 +43,7 @@ class PlacesService {
 
 		if (isFirstPage) {
 			promises.push(
-				place.count({
+				Place.count({
 					where: this.getWhereConditions(filter),
 					replacements: {
 						search_text: `%${filter.search_text}%`

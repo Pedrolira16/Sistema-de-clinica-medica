@@ -25,10 +25,6 @@ const userSchema =  {
 	 },
 
 	 update : {
-		params: yup
-		.object ({
-			id: yup.number().required()
-		}),
 		body: yup
 		.object ({
 			name: yup.string(),

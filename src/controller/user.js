@@ -43,7 +43,11 @@ export default class UserController extends BaseController {
 
 	async update(req, res) {
 		try {
-			await this.userService.update(req.data, req.filter);
+			await this.userService.update({
+				...req.data,
+				company_id: req.companyId,
+				user_id: req.userId
+			});
 	
 			this.successHandler(true, res);
 		} catch (error) {

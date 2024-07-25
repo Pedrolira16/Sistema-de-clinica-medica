@@ -44,17 +44,8 @@ class UserService {
 		};
 	};
 
-	async update(post, filter) {
-		const user = await User.findOne({
-			where: {
-				id: filter.id
-			}
-		});
-
-		if (!user) {
-			throw new Error('Usuário não encontrado');
-		}
-
+	async update(post) {
+	
 		if (post.password) {
 			post.password = await hashPassword(post.password);
 		}
@@ -65,7 +56,9 @@ class UserService {
 
 		return User.update(post, {
 			where: {
-				id: filter.id
+				id: post.user_id,
+				company_id: post.company_id,
+				is_deleted: false
 			}
 		});
 	};
