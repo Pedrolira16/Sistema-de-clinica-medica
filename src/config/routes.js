@@ -6,6 +6,7 @@ import PlacesRoutes from '../routes/places';
 import AttendanceRoutes from '../routes/attendance';
 import ReportsRoutes from '../routes/reports';
 import DashboardRoutes from '../routes/dashboard';
+import Authenticator from '../middlewares/auth';
 
 export default class Routes {
 	constructor() {
@@ -22,11 +23,11 @@ export default class Routes {
 	setup() {
 		this.router.use('/auth', this.companyRoutes.setup());
 		this.router.use('/users', this.userRoutes.setup());
-		this.router.use('/patients', this.patientRoutes.setup());
-		this.router.use('/places',this.placesRoutes.setup());
-		this.router.use('/attendances', this.attendanceRoutes.setup());
-		this.router.use('/reports', this.reportsRoutes.setup());
-		this.router.use('/dashboard', this.dashboardRoutes.setup());
+		this.router.use('/patients', Authenticator.verifyToken, this.patientRoutes.setup());
+		this.router.use('/places',Authenticator.verifyToken, this.placesRoutes.setup());
+		this.router.use('/attendances', Authenticator.verifyToken, this.attendanceRoutes.setup());
+		this.router.use('/reports', Authenticator.verifyToken, this.reportsRoutes.setup());
+		this.router.use('/dashboard', Authenticator.verifyToken, this.dashboardRoutes.setup());
 
 		return this.router;
 	};

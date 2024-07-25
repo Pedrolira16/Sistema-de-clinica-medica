@@ -8,7 +8,7 @@ const dashboardSchema = {
 				start_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 				end_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 			})
-			.unknown()
+			.noUnknown()
 	},
 }
 export default dashboardSchema;

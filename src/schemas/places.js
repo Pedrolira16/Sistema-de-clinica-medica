@@ -8,7 +8,7 @@ const placesSchema = {
 			address: yup.string().required(),
 			prefix: yup.string().required(),
 		})
-		.unknown()
+		.noUnknown()
 	},
 
 	list: {
@@ -17,7 +17,7 @@ const placesSchema = {
 			search_text: yup.string().nullable(),
 			page: yup.number().integer().nullable(),
 		})
-		.unknown()
+		.noUnknown()
 	},
 
 	find: {
@@ -25,7 +25,7 @@ const placesSchema = {
 		.object({
 			id: yup.number().required(),
 		})
-		.unknown()
+		.noUnknown()
 	},
 
 	update: {
@@ -39,7 +39,7 @@ const placesSchema = {
 			address: yup.string(),
 			prefix: yup.string(),
 		})
-		.unknown()
+		.noUnknown()
 	},
 
 	remove: {
@@ -47,7 +47,7 @@ const placesSchema = {
 		.object({
 			id: yup.number().required(),
 		})
-		.unknown()
+		.noUnknown()
 	}
 }
 export default placesSchema;

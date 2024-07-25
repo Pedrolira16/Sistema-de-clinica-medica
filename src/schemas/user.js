@@ -12,7 +12,7 @@ const userSchema =  {
 			role: yup.string().required(),
 			is_adm: yup.boolean().required(),
 		})
-		.unknown()
+		.noUnknown()
 	 },
 
 	 login : {
@@ -21,7 +21,7 @@ const userSchema =  {
 			email: yup.string().email().required(),
 			password: yup.string().required()
 		})
-		.unknown()
+		.noUnknown()
 	 },
 
 	 update : {
@@ -34,7 +34,7 @@ const userSchema =  {
 			phone: yup.string(),
 			role: yup.string()
 		})
-		.unknown()
+		.noUnknown()
 	 },
 
 	 list: {
@@ -43,7 +43,7 @@ const userSchema =  {
 			search_text: yup.string().nullable(),
 			page: yup.number().integer().nullable(),
 		})
-		.unknown()
+		.noUnknown()
 	},
 
 	find: {
@@ -51,7 +51,7 @@ const userSchema =  {
 		.object({
 			id: yup.number().required()
 		})
-		.unknown()
+		.noUnknown()
 	},
 }
 export default userSchema;

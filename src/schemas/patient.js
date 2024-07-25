@@ -10,7 +10,7 @@ const patientSchema = {
 				email: yup.string().email().required()
 			}
 			)
-			.unknown()
+			.noUnknown()
 	},
 
 	list: {
@@ -19,7 +19,7 @@ const patientSchema = {
 				search_text: yup.string().nullable(),
 				page: yup.number().integer().min(1)
 			})
-			.unknown()
+			.noUnknown()
 	},		
 
 	find: {
@@ -27,7 +27,7 @@ const patientSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown()
+			.noUnknown()
 	},
 	
 	update: {
@@ -48,7 +48,7 @@ const patientSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown()
+			.noUnknown()
 	}
 }
 export default patientSchema;

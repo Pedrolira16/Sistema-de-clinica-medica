@@ -1,6 +1,5 @@
 import BaseController from './base';
 import UserService from '../services/user';
-import { Company } from '../models';
 
 export default class UserController extends BaseController {
 	constructor() {

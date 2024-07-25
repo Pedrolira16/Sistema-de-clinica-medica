@@ -16,7 +16,7 @@ const attendanceSchema = {
                     return !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment(start_date)));
                 }).nullable(),
             })
-            .unknown()
+            .noUnknown()
     },
 
 	list: {
@@ -27,7 +27,7 @@ const attendanceSchema = {
 				start_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 				end_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 			})
-			.unknown()
+			.noUnknown()
 	},
 
 	find: {
@@ -35,7 +35,7 @@ const attendanceSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown()
+			.noUnknown()
 	},
 
 	update: {
@@ -43,7 +43,7 @@ const attendanceSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown(),
+			.noUnknown(),
 
 		body: yup
 			.object({
@@ -53,7 +53,7 @@ const attendanceSchema = {
 				start_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment()))).nullable(),
 				end_date: yup.string().test('invalidFormat', null, value => !value || (moment(value, 'YYYY-MM-DD, HH:mm', true).isValid() && moment(value).isAfter(moment(start_date)))).nullable()
 			})
-			.unknown()
+			.noUnknown()
 	},
 
 	remove: {
@@ -61,7 +61,7 @@ const attendanceSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown(),
+			.noUnknown(),
 	},
 
 	done: {
@@ -69,7 +69,7 @@ const attendanceSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown()
+			.noUnknown()
 	},
 
 	confirm: {
@@ -77,7 +77,7 @@ const attendanceSchema = {
 			.object({
 				id: yup.number().required()
 			})
-			.unknown()
+			.noUnknown()
 	}
 }
 export default attendanceSchema;

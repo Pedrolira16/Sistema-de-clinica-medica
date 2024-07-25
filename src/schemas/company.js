@@ -7,7 +7,7 @@ const companySchema = {
 				name: yup.string().required(),
 				password: yup.string().required(),
 			})
-			.unknown(),
+			.noUnknown(),
 	}
 }
 export default companySchema;

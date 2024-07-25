@@ -11,7 +11,7 @@ class DashboardRoutes extends BaseRoutes {
 	}
 
 	setup() {
-		this.router.get('/', Authenticator.getToken, SchemaValidator.validate(dashboardSchema.list), this.dashboardController.list);
+		this.router.get('/', SchemaValidator.validate(dashboardSchema.list), this.dashboardController.list);
 
 		return this.router;
 	}

@@ -9,7 +9,7 @@ class ReportsRoutes extends BaseRoutes {
 	}
 
 setup() {
-	this.router.get('/attendances', Authenticator.getToken, this.reportController.attendance);
+	this.router.get('/attendances', this.reportController.attendance);
 
 	return this.router;
 	}

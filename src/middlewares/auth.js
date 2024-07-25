@@ -16,6 +16,7 @@ class Authenticator {
 			
 			req.userId = decoded.id;
 			req.companyId = decoded.company_id;
+			req.isAdm = decoded.is_adm;
 
 			next();
 		});
@@ -28,10 +29,19 @@ class Authenticator {
 			if (!err) {
 				req.companyId = decoded?.company_id;
 				req.userId = decoded?.id;
+				req.isAdm = decoded?.is_adm;
 			}
 
 			next();
 		});
+	}
+
+	static adminAuth(req, res, next) {
+		if (!req.isAdm) {
+			return res.status(403).json({ auth: false, message: 'Not authorized.' });
+		}
+
+		next();
 	}
 }
 export default Authenticator;   

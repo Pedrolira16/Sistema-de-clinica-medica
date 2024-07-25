@@ -6,7 +6,6 @@ import { Op, literal } from "sequelize";
 
 class UserService {
 	async create(data) {
-
 		data.password = await hashPassword(data.password);
 
 		if (!validateCPF(data.cpf)) {
@@ -36,7 +35,7 @@ class UserService {
 			throw new Error('Email ou senha inválidos');
 		}
 
-		const token = AuthUtils.generateToken({ id: user.id, company_id: user.company_id });
+		const token = AuthUtils.generateToken({ id: user.id, company_id: user.company_id, is_adm: user.is_adm });
 
 		return {
 			user,
