@@ -1,7 +1,7 @@
 import BaseController from "./base";
 import PatientService from "../services/patient";
 
-export default class PatientController extends BaseController {
+class PatientController extends BaseController {
 
 	constructor() {
 		super();
@@ -83,3 +83,4 @@ export default class PatientController extends BaseController {
 		}
 	};
 }
+export default PatientController;

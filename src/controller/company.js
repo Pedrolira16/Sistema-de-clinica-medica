@@ -1,7 +1,6 @@
 import BaseController from "./base";
 import CompanyService from "../services/company";
 
-
  class CompanyController extends BaseController {
 	constructor() {
 		super();

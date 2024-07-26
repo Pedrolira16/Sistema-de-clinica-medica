@@ -1,5 +1,4 @@
 import BaseRoutes from "./base";
-import Authenticator from "../middlewares/auth";
 import ReportsController from "../controller/report";
 
 class ReportsRoutes extends BaseRoutes {

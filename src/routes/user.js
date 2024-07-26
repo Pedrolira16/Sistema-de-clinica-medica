@@ -4,7 +4,6 @@ import userSchema from "../schemas/user";
 import UserController from "../controller/user";
 import Authenticator from "../middlewares/auth";
  
-
 class UserRoutes extends BaseRoutes {
 	constructor() {
 		super();

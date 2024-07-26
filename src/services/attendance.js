@@ -244,6 +244,6 @@ class AttendanceService {
 				is_deleted: false
 			}
 		})
-	}
+	};
 }
 export default AttendanceService;

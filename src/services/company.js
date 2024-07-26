@@ -2,8 +2,7 @@ import { Company } from "../models";
 import { User } from "../models";
 import { hashPassword } from "../utils/auth";
 
-
-export default class CompanyService {
+class CompanyService {
 	async create(post){
 
 			const company = await Company.create(post)
@@ -24,3 +23,4 @@ export default class CompanyService {
 			return company, user;
 	};
 }
+export default CompanyService;

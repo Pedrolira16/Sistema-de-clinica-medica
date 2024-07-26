@@ -5,7 +5,13 @@ class PlacesController extends BaseController {
 	constructor() {
 		super();
 		this.placesService = new PlacesService();
-		this.bindActions(['create','list','find','update','remove']);
+		this.bindActions([
+			'create',
+			'list',
+			'find',
+			'update',
+			'remove'
+		]);
 	}
 
 	async create(req, res){
@@ -14,6 +20,7 @@ class PlacesController extends BaseController {
 				...req.data,
 				company_id: req.companyId
 			});
+
 			this.successHandler(response, res);
 		} catch (error) {
 			this.errorHandler(error, req, res);
@@ -26,6 +33,7 @@ class PlacesController extends BaseController {
 				...req.filter,
 				company_id: req.companyId
 			});
+
 			this.successHandler(response, res);
 		} catch (error){
 			this.errorHandler(error, req, res);
@@ -38,6 +46,7 @@ class PlacesController extends BaseController {
 				...req.filter,
 				company_id: req.companyId
 			});
+			
 			this.successHandler(response, res);
 		}catch (error){
 			this.errorHandler(error, req, res);

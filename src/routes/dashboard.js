@@ -1,6 +1,5 @@
 import BaseRoutes from "./base";
 import DashboardController from "../controller/dashboard";
-import Authenticator from "../middlewares/auth";
 import SchemaValidator from "../utils/schemaValidator";
 import dashboardSchema from "../schemas/dashboard";
 

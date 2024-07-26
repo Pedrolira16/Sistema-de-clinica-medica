@@ -2,7 +2,6 @@ import BaseRoutes from "./base";
 import SchemaValidator from "../utils/schemaValidator";
 import patientSchema from "../schemas/patient";
 import PatientController from "../controller/patient";
-import Authenticator from "../middlewares/auth";
  
 class PatientRoutes extends BaseRoutes {
 	constructor() {

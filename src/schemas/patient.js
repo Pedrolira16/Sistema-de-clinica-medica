@@ -1,4 +1,3 @@
-import { find } from 'lodash';
 import * as yup from 'yup';
 
 const patientSchema = {

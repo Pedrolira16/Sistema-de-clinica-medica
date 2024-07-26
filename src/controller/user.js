@@ -1,7 +1,6 @@
 import BaseController from './base';
 import UserService from '../services/user';
-
-export default class UserController extends BaseController {
+class UserController extends BaseController {
 	constructor() {
 
 		super();
@@ -80,3 +79,4 @@ export default class UserController extends BaseController {
 		}
 	}
 }
+export default UserController;

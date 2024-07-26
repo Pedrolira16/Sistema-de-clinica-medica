@@ -1,7 +1,6 @@
 import BaseRoutes from "./base";
 import SchemaValidator from "../utils/schemaValidator";
 import placesSchema from "../schemas/places";
-import Authenticator from "../middlewares/auth";
 import PlacesController from "../controller/places";
 
 class PlacesRoutes extends BaseRoutes {
