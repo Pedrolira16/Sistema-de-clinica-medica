@@ -1,9 +1,10 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
+import { validateCPF } from '../utils/auth';
 
 const createPatientBodySchema = yup
 	.object({
 		name: yup.string().required(),
-		cpf: yup.string().required(),
+		cpf: yup.string().test('Error ao criar usuario',validateCPF),
 		email: yup.string().email().required()
 	}
 	)

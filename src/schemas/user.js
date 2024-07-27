@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { validateCPF } from '../utils/auth';
 
 const paramsSchema = {
 	params: yup
@@ -8,19 +9,21 @@ const paramsSchema = {
 		.noUnknown()
 }
 
+const createSchema = yup
+	.object({
+		name: yup.string().required(),
+		email: yup.string().email().required(),
+		password: yup.string().required(),
+		cpf: yup.string().test('Error ao criar usuario',validateCPF),
+		phone: yup.string().required(),
+		role: yup.string().required().oneOf(['doctor', 'receptionist']),
+		is_adm: yup.boolean().required(),
+	})
+	.noUnknown()
+
 const userSchema = {
 	create: {
-		body: yup
-			.object({
-				name: yup.string().required(),
-				email: yup.string().email().required(),
-				password: yup.string().required(),
-				cpf: yup.string().required(),
-				phone: yup.string().required(),
-				role: yup.string().required().oneOf(['doctor', 'receptionist']),
-				is_adm: yup.boolean().required(),
-			})
-			.noUnknown()
+		body: createSchema
 	},
 
 	login: {
@@ -35,16 +38,7 @@ const userSchema = {
 	update: {
 		params: paramsSchema,
 
-		body: yup
-			.object({
-				name: yup.string().required(),
-				email: yup.string().email().required(),
-				password: yup.string().required(),
-				cpf: yup.string().required(),
-				phone: yup.string().required(),
-				role: yup.string().required().oneOf(['doctor', 'receptionist']),
-			})
-			.noUnknown()
+		body: createSchema
 	},
 
 	list: {
@@ -60,6 +54,5 @@ const userSchema = {
 	find: {
 		params: paramsSchema
 	}
-	
 }
 export default userSchema;

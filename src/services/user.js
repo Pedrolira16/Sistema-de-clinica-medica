@@ -4,6 +4,7 @@ import PaginationUtils from "../utils/pagination.js";
 import { literal } from "sequelize";
 import { createReplacements } from "../utils/utils.js";
 
+
 class UserService {
 	 create(data) {
 		data.password = hashPassword(data.password);
@@ -36,7 +37,6 @@ class UserService {
 	};
 
 	async update(post) {
-	
 		if (post.password) {
 			post.password = hashPassword(post.password);
 		}
@@ -68,7 +68,6 @@ class UserService {
 	}
 
 	async list(filter) {
-
 		const pagination = PaginationUtils.config({ page: filter.page, items_per_page: 10 });
 
 		const promises = [];

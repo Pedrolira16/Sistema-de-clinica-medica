@@ -16,6 +16,12 @@ const attendanceCreateBodySchema = yup
 	})
 	.noUnknown()
 
+const paramsSchema = yup
+	.object({
+		id: yup.number().required()
+	})
+	.noUnknown()
+
 const attendanceSchema = {
 	create: {
 		body: attendanceCreateBodySchema
@@ -25,7 +31,7 @@ const attendanceSchema = {
 		query: yup
 			.object({
 				page: yup.number().required(),
-				search_text: yup.string().nullable(),
+				id_text: yup.number().nullable(),
 				start_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 				end_date: yup.string().test('invalidFormat', null, value => !value || moment(value, 'YYYY-MM-DD', true).isValid()).nullable(),
 			})
@@ -33,20 +39,11 @@ const attendanceSchema = {
 	},
 
 	find: {
-		params: yup
-			.object({
-				id: yup.number().required()
-			})
-			.noUnknown()
+		params: paramsSchema
 	},
 
 	update: {
-		params: yup
-			.object({
-				id: yup.number().required()
-			})
-			.noUnknown(),
-
+		params: paramsSchema,
 		body: attendanceCreateBodySchema
 	},
 
@@ -59,19 +56,11 @@ const attendanceSchema = {
 	},
 
 	done: {
-		params: yup
-			.object({
-				id: yup.number().required()
-			})
-			.noUnknown()
+		params: paramsSchema
 	},
 
 	confirm: {
-		params: yup
-			.object({
-				id: yup.number().required()
-			})
-			.noUnknown()
+		params: paramsSchema
 	}
 }
 export default attendanceSchema;

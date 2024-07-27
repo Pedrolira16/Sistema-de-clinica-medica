@@ -1,6 +1,7 @@
 import { Op, literal } from "sequelize";
-import { Company, Patient, User } from "../models";
+import { Patient } from "../models";
 import PaginationUtils from "../utils/pagination.js";
+import { createReplacements } from "../utils/utils.js";
 
 class PatientService {
 	async create(data) {
@@ -31,9 +32,7 @@ class PatientService {
 			Patient.findAll({
 				where: this.getWhereConditions(filter),
 				attributes: ['id', 'name', 'cpf', 'email'],
-				replacements: {
-					search_text: `%${filter.search_text}%`
-				},
+				replacements: createReplacements(filter),
 				...pagination.getQueryParams()
 			})
 		);
@@ -44,9 +43,7 @@ class PatientService {
 			promises.push(
 				Patient.count({
 					where: this.getWhereConditions(filter),
-					replacements: {
-						search_text: `%${filter.search_text}%`
-					},
+					replacements: createReplacements(filter)
 				})
 			);
 		}

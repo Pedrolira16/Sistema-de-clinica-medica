@@ -21,7 +21,6 @@ class PlacesService {
 			]
 		}
 		return where;
-
 	};
 
 	async list(filter) {

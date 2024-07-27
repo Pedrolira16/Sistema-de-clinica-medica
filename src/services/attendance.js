@@ -2,10 +2,10 @@ import { User, Place, Attendance, Patient } from '../models';
 import PaginationUtils from '../utils/pagination';
 import { Op, literal, Sequelize } from 'sequelize';
 import getDateRangeFilter from '../utils/filter-date';
+import { createReplacements } from '../utils/utils';
 
 class AttendanceService {
 	async create(data) {
-
 		const [user, patient, place] = await Promise.all([
 			User.findOne({
 				where: {
@@ -50,11 +50,11 @@ class AttendanceService {
 			company_id: filter.company_id,
 			is_deleted: false
 		};
-
-		if (filter.search_text) {
+		
+		if (filter.id_text) {
 			where[Op.or] = [
-				{ name: literal(`"user"."name" ILIKE :search_text`) },
-				{ place: literal(`"place"."name" ILIKE :search_text`) }
+				{ name: literal(`"user"."id" = :id_text`) },
+				{ place: literal(`"place"."id" = :id_text`) }
 			];
 		}
 
@@ -98,13 +98,12 @@ class AttendanceService {
 					'start_date',
 					'end_date'
 				],
-				
 				replacements: {
-					search_text: `%${filter.search_text}%`
+					...createReplacements(filter),
+					id_text: filter.id_text
 				},
 				raw: true,
 				nest: true,
-				
 				...pagination.getQueryParams()
 			})
 		);
@@ -133,7 +132,8 @@ class AttendanceService {
 						},
 					],
 					replacements: {
-						search_text: `%${filter.search_text}%`
+						...createReplacements(filter),
+						id_text: filter.id_text
 					},
 				}),
 			);
@@ -175,9 +175,7 @@ class AttendanceService {
 					'end_date'
 				],
 
-				replacements: {
-					search_text: `%${filter.search_text}%`
-				},
+				replacements: createReplacements(filter),
 				raw: true,
 				nest: true,
 
