@@ -1,24 +1,16 @@
 import { User } from "../models";
 import AuthUtils, { hashPassword } from "../utils/auth";
-import { validateCPF } from "../utils/auth.js";
 import PaginationUtils from "../utils/pagination.js";
-import { Op, literal } from "sequelize";
+import { literal } from "sequelize";
+import { createReplacements } from "../utils/utils.js";
 
 class UserService {
-	async create(data) {
-		data.password = await hashPassword(data.password);
-
-		if (!validateCPF(data.cpf)) {
-			throw new Error('CPF inválido');
-		}
-
-		const newUser = await User.create(data);
-
-		return newUser;
+	 create(data) {
+		data.password = hashPassword(data.password);
+		return User.create(data);
 	};
 
 	async login(post) {
-		console.log(post);
 		const user = await User.findOne({
 			where: {
 				email: post.email
@@ -29,7 +21,7 @@ class UserService {
 			throw new Error('Email ou senha inválidos');
 		}
 
-		const isPasswordValid = await AuthUtils.isPasswordValid(post.password, user.password);
+		const isPasswordValid = AuthUtils.isPasswordValid(post.password, user.password);
 
 		if (!isPasswordValid) {
 			throw new Error('Email ou senha inválidos');
@@ -46,11 +38,7 @@ class UserService {
 	async update(post) {
 	
 		if (post.password) {
-			post.password = await hashPassword(post.password);
-		}
-
-		if (post.cpf && !validateCPF(post.cpf)) {
-			throw new Error('CPF inválido');
+			post.password = hashPassword(post.password);
 		}
 
 		return User.update(post, {
@@ -69,11 +57,13 @@ class UserService {
 		};
 
 		if (filter.search_text) {
-			where[Op.or] = [
-				{ name: literal(`"user"."name" ILIKE :search_text`) },
-				{ role: literal(`"user"."role" ILIKE :search_text`) }
-			]
+			where.name= literal(`"user"."name" ILIKE :search_text`)
 		}
+
+		if (filter.role){
+			where.role= literal(`"user"."role" ILIKE :role`)
+		}
+
 		return where;
 	}
 
@@ -95,9 +85,7 @@ class UserService {
 					'role',
 					'is_adm'
 				],
-				replacements: {
-					search_text: `%${filter.search_text}%`
-				},
+				replacements: createReplacements(filter),
 				...pagination.getQueryParams()
 			})
 		);
@@ -108,9 +96,7 @@ class UserService {
 			promises.push(
 				User.count({
 					where: this.getWhereConditions(filter),
-					replacements: {
-						search_text: `%${filter.search_text}%`
-					},
+					replacements: createReplacements(filter),
 				})
 			);
 		}

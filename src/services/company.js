@@ -3,24 +3,22 @@ import { User } from "../models";
 import { hashPassword } from "../utils/auth";
 
 class CompanyService {
-	async create(post){
+	async create(data){
 
-			const company = await Company.create(post)
+			const {company_name, ...userData} = data
 
-			const passwordHash = await hashPassword(post.password);
+			const company = await Company.create({name: company_name});
 
-			const user = await User.create({
-				company_id: company.id,
-				name: ' Admin '+company.id,
-				email:'admin'+company.id+'@email.com',	
-				password: passwordHash,
-				cpf: Math.floor(Math.random() * 90000000000) + 10000000000,	
-				phone: 123456789,
-				role: 'doctor',
-				is_adm: true
-			});
+			userData.password == hashPassword(userData.password) 
+			userData.company_id= company.id
+			userData.is_adm = true
 
-			return company, user;
+			const user =  await User.create(userData)
+
+			return{
+				user,
+				company
+			}
 	};
 }
 export default CompanyService;

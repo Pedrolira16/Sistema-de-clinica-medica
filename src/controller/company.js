@@ -16,7 +16,6 @@ import CompanyService from "../services/company";
 			});
 			
 			this.successHandler(response, res);
-			
 		} catch (error) {
 			this.errorHandler(error, req, res);
 		}

@@ -1,33 +1,10 @@
 import { Op, literal } from "sequelize";
 import { Company, Patient, User } from "../models";
-import { validateCPF } from "../utils/auth.js";
 import PaginationUtils from "../utils/pagination.js";
 
 class PatientService {
-	async create(post, filter) {
-		const user = await User.findOne({
-			where: {
-				id: filter
-			}
-		});
-
-		const company = await Company.findOne({
-			where: {
-				id: user.company_id
-			}
-		});
-
-		if (!company) {
-			throw new Error('Empresa não encontrada');
-		}
-
-		post.company_id = company.id
-
-		if (!validateCPF(post.cpf)) {
-			throw new Error('CPF inválido');
-		}
-
-		return Patient.create(post);
+	async create(data) {
+		return Patient.create(data);
 	};
 
 	getWhereConditions(filter) {
@@ -43,10 +20,9 @@ class PatientService {
 			]
 		}
 		return where;
-	}
+	} 
 
 	async list(filter) {
-
 		const pagination = PaginationUtils.config({ page: filter.page, items_per_page: 10 });
 
 		const promises = [];
@@ -94,8 +70,7 @@ class PatientService {
 		});
 	};
 
-	async update(filter, data) {
-
+	async update(filter, changes) {
 		const patient = Patient.findOne({
 			where: {
 				id: filter.id,
@@ -108,11 +83,7 @@ class PatientService {
 			throw new Error('Paciente não encontrado')
 		}
 
-		if (data.cpf && !validateCPF(data.cpf)) {
-			throw new Error('CPF inválido');
-		}
-
-		return Patient.update(data, {
+		return Patient.update(changes, {
 			where: {
 				id: filter.id,
 				company_id: filter.company_id,
@@ -121,7 +92,7 @@ class PatientService {
 		});
 	};
 
-	async remove(filter) {
+	remove(filter) {
 		return Patient.update({
 			is_deleted: true
 		}, {

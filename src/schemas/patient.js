@@ -1,15 +1,17 @@
 import * as yup from 'yup';
 
+const createPatientBodySchema = yup
+	.object({
+		name: yup.string().required(),
+		cpf: yup.string().required(),
+		email: yup.string().email().required()
+	}
+	)
+	.noUnknown()
+
 const patientSchema = {
 	create: {
-		body: yup
-			.object({
-				name: yup.string().required(),
-				cpf: yup.string().required(),
-				email: yup.string().email().required()
-			}
-			)
-			.noUnknown()
+		body: createPatientBodySchema
 	},
 
 	list: {
@@ -19,7 +21,7 @@ const patientSchema = {
 				page: yup.number().integer().min(1)
 			})
 			.noUnknown()
-	},		
+	},
 
 	find: {
 		params: yup
@@ -28,18 +30,13 @@ const patientSchema = {
 			})
 			.noUnknown()
 	},
-	
+
 	update: {
 		params: yup
 			.object({
 				id: yup.number().required()
 			}),
-		body: yup
-			.object({
-				name: yup.string(),
-				cpf: yup.string(),
-				email: yup.string().email()		
-			})
+		body: createPatientBodySchema
 	},
 
 	remove: {

@@ -6,7 +6,11 @@ class ReportsService {
 			where: {
 				company_id: filter.company_id
 			},
-			attributes: ["id", "name", "total_attendances"],
+			attributes: [
+				"id", 
+				"name", 
+				"total_attendances"
+			],
 		});
 	};
 }

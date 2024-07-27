@@ -18,10 +18,10 @@ class PatientController extends BaseController {
 
 	async create(req, res) {
 		try {
-
-			const userId = req.userId
-
-			const response = await this.patientService.create(req.data, userId);
+			const response = await this.patientService.create({
+				...req.data,
+				company_id: req.companyId,
+			})
 
 			this.successHandler(response, res);
 		} catch (error) {

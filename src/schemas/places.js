@@ -1,14 +1,22 @@
 import * as yup from 'yup';
 
-const placesSchema = {
-	create: {
-		body: yup
+const bodySchema = yup
+	.object({
+		name: yup.string().required(),
+		prefix: yup.string().required(),
+	})
+	.noUnknown()
+
+const paramsSchema = yup
 		.object({
-			name: yup.string().required(),
-			address: yup.string().required(),
-			prefix: yup.string().required(),
+			id: yup.number().required()
 		})
 		.noUnknown()
+
+
+const placesSchema = {
+	create: {
+		body: bodySchema
 	},
 
 	list: {
@@ -21,32 +29,17 @@ const placesSchema = {
 	},
 
 	find: {
-		params: yup
-		.object({
-			id: yup.number().required(),
-		})
-		.noUnknown()
+		params: paramsSchema
 	},
 
 	update: {
-		params: yup
-		.object({
-			id: yup.number().required(),
-		}),
-		body: yup
-		.object({
-			name: yup.string(),
-			address: yup.string(),
-			prefix: yup.string(),
-		})
+		params: paramsSchema,
+		body: bodySchema
 		.noUnknown()
 	},
 
 	remove: {
-		params: yup
-		.object({
-			id: yup.number().required(),
-		})
+		params: paramsSchema
 		.noUnknown()
 	}
 }

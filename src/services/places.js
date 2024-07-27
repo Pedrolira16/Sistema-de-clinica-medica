@@ -1,6 +1,7 @@
 import { Place } from "../models";
 import PaginationUtils from "../utils/pagination";
 import { literal, Op } from "sequelize";
+import { createReplacements } from "../utils/utils";
 
 class PlacesService {
 	async create(data) {
@@ -32,9 +33,7 @@ class PlacesService {
 			Place.findAll({
 				where: this.getWhereConditions(filter),
 				attributes: ['name', 'address', 'prefix'],
-				replacements: {
-					search_text: `%${filter.search_text}%`
-				},
+				replacements:createReplacements(filter),
 				...pagination.getQueryParams()
 			})
 		);
@@ -45,9 +44,7 @@ class PlacesService {
 			promises.push(
 				Place.count({
 					where: this.getWhereConditions(filter),
-					replacements: {
-						search_text: `%${filter.search_text}%`
-					},
+					replacements: createReplacements(filter)
 				})
 			);
 		}
@@ -59,7 +56,7 @@ class PlacesService {
 		}
 	};
 
-	async find(filter) {
+	find(filter) {
 		return Place.findOne({
 			where: {
 				id: filter.id,
@@ -70,7 +67,7 @@ class PlacesService {
 		})
 	};
 
-	async update(data) {
+	update(data) {
 		return Place.update(data, {
 			where: {
 				id: data.id,
@@ -80,7 +77,7 @@ class PlacesService {
 		});
 	};
 
-	async remove(filter) {
+	remove(filter) {
 		return Place.update({
 			is_deleted: true
 		}, {

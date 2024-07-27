@@ -5,37 +5,33 @@ import getDateRangeFilter from '../utils/filter-date';
 
 class AttendanceService {
 	async create(data) {
-		const user = await User.findOne({
-			where: {
-				id: data.user_id,
-				is_deleted: false
-			}
-		});
 
-		if (!user) {
-			throw new Error('Usuário não encontrado');
-		}
-
-		const patient = await Patient.findOne({
-			where: {
-				id: data.patient_id,
-				is_deleted: false
-			}
-		});
-
-		if (!patient) {
-			throw new Error('Paciente não encontrado');
-		}
-
-		const place = await Place.findOne({
-			where: {
-				id: data.place_id,
-				is_deleted: false
-			}
-		});
-
-		if (!place) {
-			throw new Error('Local não encontrado');
+		const [user, patient, place] = await Promise.all([
+			User.findOne({
+				where: {
+					id: data.user_id,
+					is_deleted: false,
+					company_id: data.company_id
+				}
+			}),
+			Patient.findOne({
+				where: {
+					id: data.patient_id,
+					is_deleted: false,
+					company_id: data.company_id
+				}
+			}),
+			Place.findOne({
+				where: {
+					id: data.place_id,
+					is_deleted: false,
+					company_id: data.company_id
+				}
+			})
+		]);
+		
+		if (!user||!patient||!place) {
+			throw new Error('not found');
 		}
 		
 		await User.increment('total_attendances', {
